@@ -15,8 +15,10 @@
 #   "pandas",
 #   "duckdb",
 #   "gitpython"
+#   "fastapi.middleware.cors"
 # ]
 # ///   
+
 from logging import config
 import shutil
 import pytesseract
@@ -33,6 +35,7 @@ from collections import defaultdict
 from openai import OpenAI
 import requests
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import git
 import duckdb
@@ -48,6 +51,15 @@ app = FastAPI()
 client = OpenAI(
     base_url=os.getenv("OPENAI_BASE_URL"),
     api_key=os.getenv("OPENAI_API_KEY")
+)
+
+CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
 )
 
 DATA_DIR = "/Users/Project1_tds/data"  # Ensure this is writable
